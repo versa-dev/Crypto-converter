@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import ReactModal from "react-modal";
 import { Title } from "./styles";
@@ -13,11 +12,12 @@ interface WalletDetailsModalProps {
 
 const CustomModal = styled(ReactModal)`
   position: absolute;
-  background-color: #ffffff;
+  background-color: #f3f3f3;
   width: 450px;
   left: calc((100vw - 510px) / 2);
   top: 200px;
   padding: 20px 30px;
+  border-radius: 10px;
 `;
 
 const Button = styled.button`
@@ -26,6 +26,9 @@ const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
 `;
 
 const Disconnect = styled.button`
@@ -35,6 +38,22 @@ const Disconnect = styled.button`
   justify-content: center;
   align-items: center;
   background: red;
+  margin-top: 40px;
+  border-radius: 8px;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+`;
+
+const DetailRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const DetailText = styled.p`
+  font-size: 14px;
+  font-weight: 600;
 `;
 
 const fetcher =
@@ -69,8 +88,6 @@ const WalletDetailsModal = (props: WalletDetailsModalProps): JSX.Element => {
     }
   };
 
-  console.log("here ===>", parseInt(balance));
-
   return (
     <>
       <CustomModal isOpen={props.show} onRequestClose={props.onClose}>
@@ -81,21 +98,46 @@ const WalletDetailsModal = (props: WalletDetailsModalProps): JSX.Element => {
           </Title>
         </div>
         {active ? (
-          <div>
-            {account}-{chainId}----- {"fucking"}
+          <div style={{ display: "grid" }}>
+            <DetailRow>
+              <p>KEY</p>
+              <p>VALUE</p>
+            </DetailRow>
+            <DetailRow>
+              <DetailText>Account</DetailText>
+              <DetailText>
+                {account?.substring(0, 4)}...
+                {account?.substring(account.length - 4, account.length)}
+              </DetailText>
+            </DetailRow>
+            <DetailRow>
+              <DetailText>Chain ID</DetailText>
+              <DetailText>{chainId}</DetailText>
+            </DetailRow>
+            <DetailRow>
+              <DetailText>Balance</DetailText>
+              <DetailText>{parseFloat(balance) / Math.pow(10, 18)}</DetailText>
+            </DetailRow>
           </div>
         ) : (
-          <>Disconnected</>
+          <h4 style={{ color: "red" }}>
+            Wallet not connected. Please click the "Connect" button below.
+          </h4>
         )}
         {!active ? (
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
-              marginTop: 30,
+              marginTop: 50,
             }}
           >
-            <Button onClick={connect}>Connect</Button>
+            <Button
+              style={{ background: "#0948db", color: "white" }}
+              onClick={connect}
+            >
+              Connect
+            </Button>
             <Button onClick={props.onClose}>Cancel</Button>
           </div>
         ) : (

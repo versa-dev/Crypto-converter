@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import CustomInput from "./CustomInput";
 import { ModalContainer, Title } from "./styles";
 import { EXCHANGE_RATE } from "../const";
@@ -31,7 +31,7 @@ export const Converter = (): JSX.Element => {
   };
 
   return (
-    <ModalContainer style={{ width: 400 }}>
+    <ModalContainer style={{ width: 400, marginTop: 40 }}>
       <Title>Crypto converter</Title>
       {toggle ? (
         <CustomInput label="NEP" value={nepVal} changeValue={changeNepVal} />
